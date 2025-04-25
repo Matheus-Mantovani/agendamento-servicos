@@ -1,12 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-<meta charset="ISO-8859-1">
-<title>HireUp</title>
+    <meta charset="UTF-8">
+    <title>HireUp</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	
+
+<%@ include file="./includes/header.jsp" %>
+
+<main style="padding: 2rem;">
+    <h1>Bem-vindo à HireUp</h1>
+    <p>Plataforma de agendamento de serviços com praticidade e eficiência.</p>
+</main>
+
+<%@ include file="./includes/footer.jsp" %>
+
 </body>
 </html>
