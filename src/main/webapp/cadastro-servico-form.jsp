@@ -11,7 +11,7 @@
 	<%@ include file="./includes/header.jsp"%>
 
 	<main class="login-main">
-		<form action="CadastroServicoServlet" method="post" class="login-form">
+		<form action="controller.do?action=cadastro-servico" method="post" class="login-form">
 			<h2 class="form-title">Cadastro de Serviço</h2>
 
 			<div class="form-group">

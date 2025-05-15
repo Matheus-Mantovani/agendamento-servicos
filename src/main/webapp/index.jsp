@@ -8,14 +8,14 @@
 </head>
 <body>
 
-<%@ include file="./includes/header.jsp" %>
-
-<main style="padding: 2rem;">
-    <h1>Bem-vindo à HireUp</h1>
-    <p>Plataforma de agendamento de serviços com praticidade e eficiência.</p>
-</main>
-
-<%@ include file="./includes/footer.jsp" %>
+	<%@ include file="./includes/header.jsp" %>
+	
+	<main>
+	    <h1>Bem-vindo à HireUp</h1>
+	    <p>Plataforma de agendamento de serviços com praticidade e eficiência.</p>
+	</main>
+	
+	<%@ include file="./includes/footer.jsp" %>
 
 </body>
 </html>

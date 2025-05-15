@@ -11,8 +11,8 @@
 	<%@ include file="./includes/header.jsp"%>
 
 	<main class="login-main">
-		<form action="LoginServlet" method="post" class="login-form">
-			<h2 class="form-title">Login</h2>
+		<form action="controller.do?action=login-cliente" method="post" class="login-form">
+			<h2 class="form-title">Login - Cliente</h2>
 
 			<div class="form-group">
 				<label for="email">E-mail:</label> <input type="email" id="email"
