@@ -3,7 +3,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Cadastro de Cliente</title>
+    <title>HireUp - Cadastro de Cliente</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>

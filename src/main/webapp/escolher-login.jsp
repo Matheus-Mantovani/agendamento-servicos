@@ -3,7 +3,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Escolher Tipo de Login</title>
+    <title>HireUp - Escolher Tipo de Login</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>

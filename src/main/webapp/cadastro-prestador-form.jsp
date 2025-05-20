@@ -3,7 +3,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Cadastro de Prestador</title>
+    <title>HireUp - Cadastro de Prestador</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
