@@ -14,4 +14,20 @@ public enum StatusServico {
 	public String getName() {
 		return name;
 	}
+	
+	public static StatusServico parseStatus(String string) {
+		switch (string) {
+			case "pendente": {
+				return PENDENTE;
+			}
+			case "aceito": {
+				return ACEITO;
+			}
+			case "concluído": {
+				return CONCLUIDO;
+			}
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + string);
+		}
+	}
 }

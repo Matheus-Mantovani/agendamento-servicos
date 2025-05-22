@@ -1,4 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+
+<%
+	var sucesso = request.getAttribute("sucesso");
+	var erro = request.getAttribute("erro");
+%>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -11,8 +17,28 @@
 	<%@ include file="./includes/header.jsp"%>
 	
 	<main class="login-main">
-	    <form action="controller.do?action=cadastro-cliente" method="post" class="login-form">
+		<form action="controller.do?action=cadastro-cliente" method="post" class="login-form">
+		
 	        <h2 class="form-title">Cadastro - Cliente</h2>
+	        
+	        <%
+			if (sucesso != null) {
+				if ((Boolean) sucesso) {
+			%>
+					<div class="msg-box msg-success">Cadastro realizado com sucesso!</div>
+			<%
+				} else {
+			%>
+				<div class="msg-box msg-error">Erro ao realizar cadastro. Tente novamente.</div>
+			<%
+				}
+			}
+	        if(erro != null) {
+			%>
+				<div class="msg-box msg-error"><%= erro %></div>
+			<%
+			} 
+			%>
 	        
 	        <input type="hidden" name="tipoUsuario" value="cliente">
 	

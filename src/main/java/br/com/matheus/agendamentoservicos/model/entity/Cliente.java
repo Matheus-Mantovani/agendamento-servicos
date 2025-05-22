@@ -14,18 +14,24 @@ public class Cliente {
 	
 	public Cliente() {}
 
-	public Cliente(long id, String nome, String email, String telefone, String senha, boolean fromDB) {
-		this.id = id;
-		this.nome = nome;
-		this.email = email;
-		this.telefone = telefone;
+	public Cliente(String nome, String email, String telefone, String senha) {
+        this(null, nome, email, telefone, senha, false);
+    }
 
-		if (fromDB) {
-			this.senha = senha;
+    public Cliente(Long id, String nome, String email, String telefone, String senha, boolean fromDB) {
+        if(id != null) {
+        	this.id = id;
+        }
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+
+        if (fromDB) {
+            this.senha = senha;
         } else {
             this.senha = hashSHA256(senha);
         }
-	}
+    }
 
 	public long getId() {
 		return id;

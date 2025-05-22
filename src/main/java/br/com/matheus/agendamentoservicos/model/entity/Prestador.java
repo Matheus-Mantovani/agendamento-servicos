@@ -13,19 +13,23 @@ public class Prestador {
 	private String cpf;
 	private String especialidade;
 	private String senha;
-	private String descricao;
 	
 	public Prestador() {}
 
-	public Prestador(long id, String nome, String email, String telefone, String cpf, String especialidade,
-			String senha, String descricao, boolean fromDB) {
-		this.id = id;
+	public Prestador(String nome, String email, String telefone, String cpf, String especialidade, String senha) {
+		this(null, nome, email, telefone, cpf, especialidade, senha, false);
+	}
+
+	public Prestador(Long id, String nome, String email, String telefone, String cpf, String especialidade,
+			String senha, boolean fromDB) {
+		if(id != null) {
+			this.id = id;
+		}
 		this.nome = nome;
 		this.email = email;
 		this.telefone = telefone;
 		this.cpf = cpf;
 		this.especialidade = especialidade;
-		this.descricao = descricao;
 		
 		if (fromDB) {
 			this.senha = senha;
@@ -89,14 +93,6 @@ public class Prestador {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
 	
 	public static boolean authenticate(Prestador prestador, String email, String password) {
 		if (prestador != null) {
@@ -125,7 +121,7 @@ public class Prestador {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cpf, descricao, email, especialidade, id, nome, senha, telefone);
+		return Objects.hash(cpf, email, especialidade, id, nome, senha, telefone);
 	}
 
 	@Override
@@ -137,9 +133,11 @@ public class Prestador {
 		if (getClass() != obj.getClass())
 			return false;
 		Prestador other = (Prestador) obj;
-		return Objects.equals(cpf, other.cpf) && Objects.equals(descricao, other.descricao)
-				&& Objects.equals(email, other.email) && Objects.equals(especialidade, other.especialidade)
-				&& id == other.id && Objects.equals(nome, other.nome) && Objects.equals(senha, other.senha)
+		return Objects.equals(cpf, other.cpf) && Objects.equals(email, other.email)
+				&& Objects.equals(especialidade, other.especialidade) && id == other.id
+				&& Objects.equals(nome, other.nome) && Objects.equals(senha, other.senha)
 				&& Objects.equals(telefone, other.telefone);
 	}
+
+	
 }

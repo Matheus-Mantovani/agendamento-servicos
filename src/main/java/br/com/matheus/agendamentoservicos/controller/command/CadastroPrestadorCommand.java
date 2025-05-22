@@ -2,6 +2,9 @@ package br.com.matheus.agendamentoservicos.controller.command;
 
 import java.io.IOException;
 
+import br.com.matheus.agendamentoservicos.model.dao.cliente.ClienteDAOFactory;
+import br.com.matheus.agendamentoservicos.model.dao.prestador.PrestadorDAOFactory;
+import br.com.matheus.agendamentoservicos.model.entity.Prestador;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,8 +14,25 @@ public class CadastroPrestadorCommand implements Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		var nome = request.getParameter("nome");
+		var email = request.getParameter("email");
+		var telefone = request.getParameter("telefone");
+		var especialidade = request.getParameter("especialidade");
+		var senha = request.getParameter("senha");
+		
+		var dao = PrestadorDAOFactory.create();
+		
+		if(dao.findByEmail(email) != null) {
+			request.setAttribute("erro", "E-mail já está em uso!");
+		} else {
+			var prestador = new Prestador(nome, email, telefone, null, especialidade, senha);
+			var sucesso = dao.create(prestador);
+			
+			request.setAttribute("sucesso", sucesso);
+		}
+		
+		return "cadastro-prestador-form.jsp";
 	}
 
 }

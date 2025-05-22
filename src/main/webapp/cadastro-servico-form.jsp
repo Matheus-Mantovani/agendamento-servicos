@@ -1,4 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+
+<%
+	var sucesso = request.getAttribute("sucesso");
+	var erro = request.getAttribute("erro");
+%>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -11,8 +17,27 @@
 	<%@ include file="./includes/header.jsp"%>
 
 	<main class="login-main">
-		<form action="controller.do?action=cadastro-servico" method="post" class="login-form">
+		<form action="controller.do?action=cadastro-servico" method="post" class="login-form" onsubmit="return validarFormulario()">
 			<h2 class="form-title">Cadastro de Serviço</h2>
+			
+			<%
+			if (sucesso != null) {
+				if ((Boolean) sucesso) {
+			%>
+					<div class="msg-box msg-success">Cadastro realizado com sucesso!</div>
+			<%
+				} else {
+			%>
+				<div class="msg-box msg-error">Erro ao realizar cadastro. Tente novamente.</div>
+			<%
+				}
+			}
+	        if(erro != null) {
+			%>
+				<div class="msg-box msg-error"><%= erro %></div>
+			<%
+			} 
+			%>
 
 			<div class="form-group">
 				<label for="nome">Nome do Serviço:</label> <input type="text"
@@ -48,13 +73,13 @@
 			</div>
 
 			<div class="form-group">
-				<label for="horaInicio">Horário de Início:</label> <input
-					type="time" id="horaInicio" name="horaInicio" required>
+				<label for="horarioInicio">Horário de Início:</label> <input
+					type="time" id="horarioInicio" name="horarioInicio" required>
 			</div>
 
 			<div class="form-group">
-				<label for="horaFim">Horário de Fim:</label> <input type="time"
-					id="horaFim" name="horaFim" required>
+				<label for="horarioFim">Horário de Fim:</label> <input type="time"
+					id="horarioFim" name="horarioFim" required>
 			</div>
 
 			<button type="submit" class="btn-login">Cadastrar Serviço</button>
@@ -62,6 +87,32 @@
 	</main>
 
 	<%@ include file="./includes/footer.jsp"%>
+	
+	<script>
+		function validarCheckboxes() {
+    		const checkboxes = document.querySelectorAll('input[name="diasDisponiveis"]:checked');
+    		if (checkboxes.length === 0) {
+        		alert('Selecione pelo menos um dia da semana!');
+        		return false;
+    		}
+    		return true;
+		}
+		
+		function validarHorarios() {
+		    const horaInicio = document.getElementById('horaInicio').value;
+		    const horaFim = document.getElementById('horaFim').value;
+		    
+		    if (horaInicio && horaFim && horaFim <= horaInicio) {
+		        alert('O horário de fim deve ser após o horário de início!');
+		        return false;
+		    }
+		    return true;
+		}
+		
+		function validarFormulario() {
+		    return validarCheckboxes() && validarHorarios();
+		}
+	</script>
 
 </body>
 </html>
