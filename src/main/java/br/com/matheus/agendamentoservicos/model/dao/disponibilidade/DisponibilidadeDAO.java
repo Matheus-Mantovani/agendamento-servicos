@@ -1,5 +1,6 @@
 package br.com.matheus.agendamentoservicos.model.dao.disponibilidade;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import br.com.matheus.agendamentoservicos.model.entity.Disponibilidade;
@@ -10,5 +11,5 @@ public interface DisponibilidadeDAO {
 	
 	Disponibilidade findById(long id);
 
-	boolean verificarHorarios(long prestadorId, LocalTime horarioInicio, LocalTime horarioFim);
+	boolean verificarHorarioDisponivel(long prestadorId, long servicoId, LocalDate data, LocalTime horaInicio);
 }

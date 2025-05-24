@@ -1,4 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+
+<%
+	var erro = request.getAttribute("erro");
+%>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -13,6 +18,13 @@
 	<main class="login-main">
 		<form action="controller.do?action=login-cliente" method="post" class="login-form">
 			<h2 class="form-title">Login - Cliente</h2>
+			<%
+			if(erro != null) {
+			%>
+				<div class="msg-box msg-error"><%= erro %></div>
+			<%
+			} 
+			%>
 
 			<div class="form-group">
 				<label for="email">E-mail:</label> <input type="email" id="email"

@@ -5,24 +5,24 @@ import java.util.Objects;
 
 public class Disponibilidade {
 	private long id;
-	private long prestadorServicoId;
+	private long servicoId;
 	private int diaSemana;
 	private LocalTime horaInicio;
 	private LocalTime horaFim;
 	
 	public Disponibilidade() {}
 	
-	public Disponibilidade(Long prestadorServicoId, int diaSemana, LocalTime horaInicio, LocalTime horaFim) {
-		this(null, prestadorServicoId, diaSemana, horaInicio, horaFim);
+	public Disponibilidade(long servicoId, int diaSemana, LocalTime horaInicio, LocalTime horaFim) {
+		this(null, servicoId, diaSemana, horaInicio, horaFim);
 	}
 
-	public Disponibilidade(Long id, Long prestadorServicoId, int diaSemana, LocalTime horaInicio,
+	public Disponibilidade(Long id, long servicoId, int diaSemana, LocalTime horaInicio,
 			LocalTime horaFim) {
 		super();
 		if(id != null) {
 			this.id = id;
 		}
-		this.prestadorServicoId = prestadorServicoId;
+		this.servicoId = servicoId;
 		this.diaSemana = diaSemana;
 		this.horaInicio = horaInicio;
 		this.horaFim = horaFim;
@@ -36,12 +36,12 @@ public class Disponibilidade {
 		this.id = id;
 	}
 
-	public long getPrestadorServicoId() {
-		return prestadorServicoId;
+	public long getServicoId() {
+		return servicoId;
 	}
 
-	public void setPrestadorServicoId(Long prestadorServicoId) {
-		this.prestadorServicoId = prestadorServicoId;
+	public void setServicoId(long servicoId) {
+		this.servicoId = servicoId;
 	}
 
 	public int getDiaSemana() {
@@ -70,7 +70,7 @@ public class Disponibilidade {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(diaSemana, horaFim, horaInicio, id, prestadorServicoId);
+		return Objects.hash(diaSemana, horaFim, horaInicio, id, servicoId);
 	}
 
 	@Override
@@ -83,9 +83,6 @@ public class Disponibilidade {
 			return false;
 		Disponibilidade other = (Disponibilidade) obj;
 		return diaSemana == other.diaSemana && Objects.equals(horaFim, other.horaFim)
-				&& Objects.equals(horaInicio, other.horaInicio) && id == other.id
-				&& prestadorServicoId == other.prestadorServicoId;
-	}
-
-	
+				&& Objects.equals(horaInicio, other.horaInicio) && id == other.id && servicoId == other.servicoId;
+	}	
 }

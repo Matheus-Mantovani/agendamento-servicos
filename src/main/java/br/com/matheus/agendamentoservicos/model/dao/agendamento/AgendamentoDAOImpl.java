@@ -5,23 +5,33 @@ import java.sql.SQLException;
 
 import javax.naming.NamingException;
 
+import br.com.matheus.agendamentoservicos.model.dao.disponibilidade.DisponibilidadeDAO;
+import br.com.matheus.agendamentoservicos.model.dao.servico.ServicoDAO;
 import br.com.matheus.agendamentoservicos.model.entity.Agendamento;
 import br.com.matheus.agendamentoservicos.model.entity.Servico;
 import br.com.matheus.agendamentoservicos.model.enums.StatusServico;
 import br.com.matheus.agendamentoservicos.util.ConnectionFactory;
 
 public class AgendamentoDAOImpl implements AgendamentoDAO {
+    private final ServicoDAO servicoDAO;
+    private final DisponibilidadeDAO disponibilidadeDAO;
 
 	private static final String INSERT_AGENDAMENTO_SQL = "INSERT INTO agendamento(cliente_id, prestador_id, servico_id, data, hora_inicio, status, observacoes) VALUES(?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE_STATUS_SQL = "UPDATE agendamento SET status = ? WHERE id = ?";
 	private static final String FIND_BY_ID_SQL = "SELECT id, cliente_id, prestador_id, servico_id, data, hora_inicio, status, observacoes FROM agendamento WHERE id = ?";
+	
+	public AgendamentoDAOImpl(ServicoDAO servicoDAO, DisponibilidadeDAO disponibilidadeDAO) {
+		super();
+		this.servicoDAO = servicoDAO;
+		this.disponibilidadeDAO = disponibilidadeDAO;
+	}
 
 	@Override
 	public boolean create(Agendamento agendamento) {
 		
 		try(var connection = ConnectionFactory.getConnection();
 				var preparedStatement = connection.prepareStatement(INSERT_AGENDAMENTO_SQL)) {
-
+			
 			preparedStatement.setLong(1, agendamento.getClienteId());
 			preparedStatement.setLong(2, agendamento.getPrestadorId());
 			preparedStatement.setLong(3, agendamento.getServicoId());

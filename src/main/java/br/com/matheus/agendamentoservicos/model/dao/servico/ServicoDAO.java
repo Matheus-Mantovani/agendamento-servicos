@@ -6,7 +6,7 @@ import br.com.matheus.agendamentoservicos.model.entity.Servico;
 
 public interface ServicoDAO {
 	
-	public boolean create(Servico servico);
+	public Servico create(Servico servico);
 	
 	public Servico findById(long id);
 	

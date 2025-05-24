@@ -3,6 +3,7 @@ package br.com.matheus.agendamentoservicos.model.enums;
 public enum StatusServico {
 	PENDENTE("pendente"),
 	ACEITO("aceito"),
+	REJEITADO("rejeitado"),
 	CONCLUIDO("concluído");
 
 	private String name;
@@ -22,6 +23,9 @@ public enum StatusServico {
 			}
 			case "aceito": {
 				return ACEITO;
+			}
+			case "rejeitado": {
+				return REJEITADO;
 			}
 			case "concluído": {
 				return CONCLUIDO;

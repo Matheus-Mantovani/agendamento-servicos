@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import br.com.matheus.agendamentoservicos.model.dao.disponibilidade.DisponibilidadeDAOFactory;
+import br.com.matheus.agendamentoservicos.model.dao.prestador.PrestadorDAOFactory;
 import br.com.matheus.agendamentoservicos.model.dao.servico.ServicoDAOFactory;
+import br.com.matheus.agendamentoservicos.model.entity.Disponibilidade;
+import br.com.matheus.agendamentoservicos.model.entity.Prestador;
 import br.com.matheus.agendamentoservicos.model.entity.Servico;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,33 +23,42 @@ public class CadastroServicoCommand implements Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		var session = request.getSession(false);
+
+		Prestador prestador = (Prestador) session.getAttribute("prestador");
 		
-		var prestadorIdString = request.getParameter("prestadorId"); //pegar id do prestador depois TODO
+		var prestadorIdString = prestador.getId();
 		var nome = request.getParameter("nome");
 		var descricao = request.getParameter("descricao");
 		var precoString = request.getParameter("preco");
 		var duracaoString = request.getParameter("duracao");
 		var diasDisponiveisString = request.getParameterValues("diasDisponiveis");
-		var horarioInicioString = request.getParameter("horaInicio");
-		var horarioFimString = request.getParameter("horaFim");
+		var horarioInicioString = request.getParameter("horarioInicio");
+		var horarioFimString = request.getParameter("horarioFim");
 		
 		var prestadorId = Long.valueOf(prestadorIdString);
 		var preco = BigDecimal.valueOf(Double.valueOf(precoString));
 		var duracao = BigDecimal.valueOf(Double.valueOf(duracaoString));
-		var diasInt = diasStringToInt(diasDisponiveisString);
+		var diasDisponiveisInt = diasStringToInt(diasDisponiveisString);
 		var horarioInicio = LocalTime.parse(horarioInicioString);
 		var horarioFim = LocalTime.parse(horarioFimString);
 		
+		var daoPrestador = PrestadorDAOFactory.create();
 		var daoServico = ServicoDAOFactory.create();
 		var daoDisponibilidade = DisponibilidadeDAOFactory.create();
 		
-		if(daoDisponibilidade.verificarHorarios(prestadorId, horarioInicio, horarioFim)) {
-			request.setAttribute("erro", "O horário selecionado já está sendo usado por outro serviço!");
-		} else {
-			var servico = new Servico(prestadorId, nome, descricao, preco, duracao, diasInt);
-			var sucesso = daoServico.create(servico);
+		if(daoPrestador.horarioDisponivel(1, diasDisponiveisInt, horarioInicio, duracao)) {
+			var servico = new Servico(prestadorId, nome, descricao, preco, duracao, diasDisponiveisInt);
+			servico = daoServico.create(servico); //pegar o id gerado pelo banco
+			var disponibilidade = new Disponibilidade(servico.getId(), -1, horarioInicio, horarioFim);
+			for(int dia : diasDisponiveisInt) {
+				disponibilidade.setDiaSemana(dia);
+				daoDisponibilidade.create(disponibilidade);
+			}
 			
-			request.setAttribute("sucesso", sucesso);
+			request.setAttribute("sucesso", true);
+		} else {
+			request.setAttribute("erro", "O horário selecionado já está sendo usado por outro serviço!");
 		}
 		
 		return "cadastro-prestador-form.jsp";
