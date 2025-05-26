@@ -9,17 +9,18 @@ public class Servico {
 	private long prestadorId;
 	private String nome;
 	private String descricao;
+	private String imagemUrl;
 	private BigDecimal preco;
 	private BigDecimal duracaoMinutos;
 	private List<Integer> diasDisponiveis;
 	
 	public Servico() {}
 	
-	public Servico(long prestadorId, String nome, String descricao, BigDecimal preco, BigDecimal duracaoMinutos, List<Integer> diasDisponiveis) {
-		this(null, prestadorId, nome, descricao, preco, duracaoMinutos, diasDisponiveis);
+	public Servico(long prestadorId, String nome, String descricao, String imagemUrl, BigDecimal preco, BigDecimal duracaoMinutos, List<Integer> diasDisponiveis) {
+		this(null, prestadorId, nome, descricao, imagemUrl, preco, duracaoMinutos, diasDisponiveis);
 	}
 
-	public Servico(Long id, long prestadorId, String nome, String descricao, BigDecimal preco, BigDecimal duracaoMinutos, List<Integer> diasDisponiveis) {
+	public Servico(Long id, long prestadorId, String nome, String descricao, String imagemUrl, BigDecimal preco, BigDecimal duracaoMinutos, List<Integer> diasDisponiveis) {
 		super();
 		if(id != null) {
 			this.id = id;
@@ -27,6 +28,7 @@ public class Servico {
 		this.prestadorId = prestadorId;
 		this.nome = nome;
 		this.descricao = descricao;
+		this.imagemUrl = imagemUrl;
 		this.preco = preco;
 		this.duracaoMinutos = duracaoMinutos;
 		this.diasDisponiveis = diasDisponiveis;
@@ -64,6 +66,14 @@ public class Servico {
 		this.descricao = descricao;
 	}
 
+	public String getImagemUrl() {
+		return imagemUrl;
+	}
+
+	public void setImagemUrl(String imagemUrl) {
+		this.imagemUrl = imagemUrl;
+	}
+
 	public BigDecimal getPreco() {
 		return preco;
 	}
@@ -90,7 +100,7 @@ public class Servico {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(descricao, diasDisponiveis, duracaoMinutos, id, nome, preco, prestadorId);
+		return Objects.hash(descricao, diasDisponiveis, duracaoMinutos, id, imagemUrl, nome, preco, prestadorId);
 	}
 
 	@Override
@@ -104,9 +114,7 @@ public class Servico {
 		Servico other = (Servico) obj;
 		return Objects.equals(descricao, other.descricao) && Objects.equals(diasDisponiveis, other.diasDisponiveis)
 				&& Objects.equals(duracaoMinutos, other.duracaoMinutos) && id == other.id
-				&& Objects.equals(nome, other.nome) && Objects.equals(preco, other.preco)
-				&& prestadorId == other.prestadorId;
+				&& Objects.equals(imagemUrl, other.imagemUrl) && Objects.equals(nome, other.nome)
+				&& Objects.equals(preco, other.preco) && prestadorId == other.prestadorId;
 	}
-
-	
 }

@@ -14,8 +14,8 @@
 	    <div class="login-form">
 	        <h2 class="form-title">Escolha o Tipo de Cadastro</h2>
 	        <div style="display: flex; flex-direction: column; gap: 1rem;">
-	            <a href="controller.do?action=cadastro-cliente-page" class="btn-login">Sou Cliente</a>
-	            <a href="controller.do?action=cadastro-prestador-page" class="btn-login">Sou Prestador de Serviço</a>
+	            <a href="controller.do?action=cadastro-cliente-page" class="btn-escolher-login">Sou Cliente</a>
+	            <a href="controller.do?action=cadastro-prestador-page" class="btn-escolher-login">Sou Prestador de Serviço</a>
 	        </div>
 	    </div>
 	</main>

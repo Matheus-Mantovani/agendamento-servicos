@@ -57,6 +57,11 @@
 	        </div>
 	        
 	        <div class="form-group">
+	            <label for="cpf">CPF (Apenas números):</label>
+	            <input type="text" pattern="\d{11}" id="cpf" name="cpf" required>
+	        </div>
+	        
+	        <div class="form-group">
 	            <label for="especialidade">Especialidade:</label>
 	            <input type="text" id="especialidade" name="especialidade" required>
 	        </div>

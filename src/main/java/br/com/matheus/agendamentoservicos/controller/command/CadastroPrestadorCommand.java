@@ -19,14 +19,17 @@ public class CadastroPrestadorCommand implements Command {
 		var email = request.getParameter("email");
 		var telefone = request.getParameter("telefone");
 		var especialidade = request.getParameter("especialidade");
+		var cpf = request.getParameter("cpf");
 		var senha = request.getParameter("senha");
 		
 		var dao = PrestadorDAOFactory.create();
 		
 		if(dao.findByEmail(email) != null) {
 			request.setAttribute("erro", "E-mail já está em uso!");
+		} else if(dao.findByCpf(cpf) != null) {
+			request.setAttribute("erro", "CPF já está em uso!");
 		} else {
-			var prestador = new Prestador(nome, email, telefone, null, especialidade, senha);
+			var prestador = new Prestador(nome, email, telefone, cpf, especialidade, senha);
 			var sucesso = dao.create(prestador);
 			
 			request.setAttribute("sucesso", sucesso);

@@ -11,4 +11,8 @@
     <servlet-name>LoggedServlet</servlet-name>
     <url-pattern>/LoggedServlet</url-pattern>
   </servlet-mapping>
+  <context-param>
+    <param-name>upload.path</param-name>
+    <param-value>src/main/webapp/uploads/servico</param-value>
+  </context-param>
 </web-app>

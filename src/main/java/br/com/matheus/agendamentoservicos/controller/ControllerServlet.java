@@ -30,7 +30,6 @@ import jakarta.servlet.http.HttpServletResponse;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, maxFileSize = 1024 * 1024 * 2, maxRequestSize = 1024 * 1024 * 2)
 public class ControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	//List<String> tiposPermitidos = Arrays.asList("image/png", "image/jpeg");
     
     public ControllerServlet() {
         super();

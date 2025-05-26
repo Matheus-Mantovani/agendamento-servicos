@@ -17,14 +17,14 @@
 	<%@ include file="./includes/header.jsp"%>
 
 	<main class="login-main">
-		<form action="controller.do?action=cadastro-servico" method="post" class="login-form" onsubmit="return validarFormulario()">
+		<form action="controller.do?action=cadastro-servico" method="post" class="login-form" onsubmit="return validarFormulario()" enctype="multipart/form-data">
 			<h2 class="form-title">Cadastro de Serviço</h2>
 			
 			<%
 			if (sucesso != null) {
 				if ((Boolean) sucesso) {
 			%>
-					<div class="msg-box msg-success">Cadastro realizado com sucesso!</div>
+					<div class="msg-box msg-success">Serviço cadastrado com sucesso!</div>
 			<%
 				} else {
 			%>
@@ -80,6 +80,11 @@
 			<div class="form-group">
 				<label for="horarioFim">Horário de Fim:</label> <input type="time"
 					id="horarioFim" name="horarioFim" required>
+			</div>
+			
+			<div class="form-group">
+				<label for="imagemServico">Imagem do serviço (.png ou .jpeg):</label> <input type="file"
+					id="imagemServico" name="imagemServico" accept="image/png, image/jpeg" required>
 			</div>
 
 			<button type="submit" class="btn-login">Cadastrar Serviço</button>

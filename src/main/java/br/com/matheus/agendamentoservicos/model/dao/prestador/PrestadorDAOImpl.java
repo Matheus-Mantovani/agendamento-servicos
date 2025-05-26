@@ -18,6 +18,7 @@ public class PrestadorDAOImpl implements PrestadorDAO {
 			+ "prestador(nome, email, telefone, cpf, especialidade, senha) "
 			+ "VALUES(?, ?, ?, ?, ?, ?)";
 	private static final String FIND_BY_EMAIL_SQL = "SELECT id, nome, email, telefone, cpf, especialidade, senha FROM prestador WHERE email = ?";
+	private static final String FIND_BY_CPF_SQL = "SELECT id, nome, email, telefone, cpf, especialidade, senha FROM prestador WHERE cpf = ?";
 	private static final String VERIFICAR_CONFLITO_HORARIO = "SELECT EXISTS ("
 			+ "    SELECT 1"
 			+ "    FROM disponibilidade d"
@@ -63,6 +64,37 @@ public class PrestadorDAOImpl implements PrestadorDAO {
 				var preparedStatement = connection.prepareStatement(FIND_BY_EMAIL_SQL)) {
 			
 			preparedStatement.setString(1, email);
+			
+			ResultSet result = preparedStatement.executeQuery();
+			
+			if(result.next()) {
+				prestador = new Prestador();
+				prestador.setId(result.getLong(1));
+				prestador.setNome(result.getString(2));
+				prestador.setEmail(result.getString(3));
+				prestador.setTelefone(result.getString(4));
+				prestador.setCpf(result.getString(5));
+				prestador.setEspecialidade(result.getString(6));
+				prestador.setSenha(result.getString(7));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		
+		return prestador;
+	}
+	
+	@Override
+	public Prestador findByCpf(String cpf) {
+		Prestador prestador = null;
+		
+		try(var connection = ConnectionFactory.getConnection();
+				var preparedStatement = connection.prepareStatement(FIND_BY_CPF_SQL)) {
+			
+			preparedStatement.setString(1, cpf);
 			
 			ResultSet result = preparedStatement.executeQuery();
 			
