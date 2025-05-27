@@ -3,6 +3,7 @@ package br.com.matheus.agendamentoservicos.controller.command;
 import br.com.matheus.agendamentoservicos.model.dao.servico.ServicoDAOFactory;
 import br.com.matheus.agendamentoservicos.model.entity.Servico;
 
+import java.io.Console;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ public class GetServicosPageCommand implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String paginaStr = request.getParameter("pagina");
+		String nomeFiltro = request.getParameter("nomeFiltro");
+		String cidadeFiltro = request.getParameter("cidadeFiltro");
 		
 		List<Servico> listaServicos = new ArrayList<>();
 		int pagina = 0;
@@ -32,14 +35,22 @@ public class GetServicosPageCommand implements Command {
 		}
 		
 		var daoServico = ServicoDAOFactory.create();
-		listaServicos = daoServico.listarServicos(pagina, servicosPorPagina);
-		totalPaginas = daoServico.getTotalPaginas(servicosPorPagina);
+		listaServicos = daoServico.listarServicos(pagina, servicosPorPagina, nomeFiltro, cidadeFiltro);
+		totalPaginas = daoServico.getTotalPaginas(servicosPorPagina, nomeFiltro, cidadeFiltro);
+		
+		for(var s : listaServicos) {
+			if(s.getNome() == null && !s.getNome().isBlank()) {
+				System.out.println("nome");
+			} else {
+				System.out.println(s.getNome() + " fill");
+			}
+		}
 		
 		request.setAttribute("listaServicos", listaServicos);
 		request.setAttribute("pagina", pagina);
 		request.setAttribute("totalPaginas", totalPaginas);
 		
-		return "servicos.jsp?pagina=" + pagina;
+		return "servicos.jsp";
 	}
 
 }

@@ -18,7 +18,9 @@ public class ServicoDAOImpl implements ServicoDAO {
 	private static final String FIND_BY_ID_SQL = "SELECT id, prestador_id, nome, descricao, imagem_url, preco, duracao_minutos FROM servico WHERE id = ?";
 	private static final String FIND_BY_PRESTADOR_ID_SQL = "SELECT id, prestador_id, nome, descricao, imagem_url, preco, duracao_minutos FROM servico WHERE prestador_id = ?";
 	private static final String LISTAR_SERVICOS_SQL = "SELECT id, prestador_id, nome, descricao, imagem_url, preco, duracao_minutos FROM servico ORDER BY id ASC LIMIT ? OFFSET ?";
+	private static final String LISTAR_SERVICOS_FILTRADOS_SQL = "SELECT id, prestador_id, nome, descricao, imagem_url, preco, duracao_minutos FROM servico ORDER BY id ASC LIMIT ? OFFSET ?";
 	private static final String COUNT_TOTAL_SERVICOS_SQL = "SELECT COUNT(id) AS totalServicos FROM servico";
+	private static final String COUNT_TOTAL_SERVICOS_FILTRADOS_SQL = "SELECT COUNT(id) AS totalServicos FROM servico";
 	
 	@Override
 	public Servico create(Servico servico) {
@@ -119,7 +121,7 @@ public class ServicoDAOImpl implements ServicoDAO {
 	@Override
 	public List<Servico> listarServicos(int pagina, int servicosPorPagina) {
 		List<Servico> servicos = new ArrayList<>();
-		Servico servico = new Servico();
+		Servico servico;
 		
 		try(var conn = ConnectionFactory.getConnection();
 				var stmt = conn.prepareStatement(LISTAR_SERVICOS_SQL)) {
@@ -129,6 +131,7 @@ public class ServicoDAOImpl implements ServicoDAO {
 			var rs = stmt.executeQuery();
 			
 			while(rs.next()) {
+				servico = new Servico();
 				servico.setId(rs.getLong(1));
 				servico.setPrestadorId(rs.getLong(2));
 				servico.setNome(rs.getString(3));
@@ -145,7 +148,56 @@ public class ServicoDAOImpl implements ServicoDAO {
 		
 		return servicos;
 	}
-
+	
+	@Override
+	public List<Servico> listarServicos(int pagina, int servicosPorPagina, String filtroNome, String filtroCidade) {
+		StringBuilder LISTAR_SERVICOS_SQL = new StringBuilder("SELECT id, prestador_id, nome, descricao, imagem_url, preco, duracao_minutos FROM servico WHERE 1=1");
+		List<Object> params = new ArrayList<>();
+		List<Servico> servicos = new ArrayList<>();
+		Servico servico;
+		
+		if(filtroNome != null && !filtroNome.isBlank()) {
+			LISTAR_SERVICOS_SQL.append(" AND LOWER(nome) LIKE ?");
+			params.add("%" + filtroNome.toLowerCase() + "%");
+		}
+		
+		if(filtroCidade != null && !filtroCidade.isBlank()) {
+			LISTAR_SERVICOS_SQL.append(" AND LOWER(cidade) LIKE ?");
+			params.add("%" + filtroCidade.toLowerCase() + "%");
+		}
+		
+		LISTAR_SERVICOS_SQL.append(" ORDER BY id ASC LIMIT ? OFFSET ?");
+		params.add(servicosPorPagina);
+		params.add(servicosPorPagina * pagina);
+		
+		try(var conn = ConnectionFactory.getConnection();
+				var stmt = conn.prepareStatement(LISTAR_SERVICOS_SQL.toString())) {
+			
+			for(int i = 0; i < params.size(); i++) {
+				stmt.setObject(i+1, params.get(i));
+			}
+			
+			try(var rs = stmt.executeQuery()) {
+				while(rs.next()) {
+					servico = new Servico();
+					servico.setId(rs.getLong(1));
+					servico.setPrestadorId(rs.getLong(2));
+					servico.setNome(rs.getString(3));
+					servico.setDescricao(rs.getString(4));
+					servico.setImagemUrl(rs.getString(5));
+					servico.setPreco(rs.getBigDecimal(6));
+					servico.setDuracaoMinutos(rs.getBigDecimal(7));
+					servicos.add(servico);
+				}
+			}
+			
+			
+		} catch (SQLException | NamingException e) {
+			e.printStackTrace();
+		}
+		
+		return servicos;
+	}
 
 	@Override
 	public int getTotalPaginas(int servicosPorPagina) {
@@ -158,6 +210,43 @@ public class ServicoDAOImpl implements ServicoDAO {
 			rs.next();
 			totalPaginas = rs.getInt(1);
 			totalPaginas /= servicosPorPagina;
+			
+		} catch (SQLException | NamingException e) {
+			e.printStackTrace();
+		}
+		
+		return totalPaginas;
+	}
+
+	@Override
+	public int getTotalPaginas(int servicosPorPagina, String filtroNome, String filtroCidade) {
+		StringBuilder COUNT_TOTAL_SERVICOS_SQL = new StringBuilder("SELECT COUNT(id) AS totalServicos FROM servico WHERE 1=1");
+		List<Object> params = new ArrayList<>();
+		int totalPaginas = 0;
+		
+		if(filtroNome != null && !filtroNome.isBlank()) {
+			COUNT_TOTAL_SERVICOS_SQL.append(" AND LOWER(nome) LIKE ?");
+			params.add("%" + filtroNome.toLowerCase() + "%");
+		}
+		
+		if(filtroCidade != null && !filtroCidade.isBlank()) {
+			COUNT_TOTAL_SERVICOS_SQL.append(" AND LOWER(cidade) LIKE ?");
+			params.add("%" + filtroCidade.toLowerCase() + "%");
+		}
+		
+		try(var conn = ConnectionFactory.getConnection();
+				var stmt = conn.prepareStatement(COUNT_TOTAL_SERVICOS_SQL.toString())) {
+			
+			for(int i = 0; i < params.size(); i++) {
+				stmt.setObject(i+1, params.get(i));
+			}
+			
+			try(var rs = stmt.executeQuery()) {
+				if(rs.next()) {
+					totalPaginas = rs.getInt(1);
+					totalPaginas /= servicosPorPagina;
+				}
+			}
 			
 		} catch (SQLException | NamingException e) {
 			e.printStackTrace();

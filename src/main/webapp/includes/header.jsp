@@ -5,7 +5,7 @@
     <nav class="nav-links">
         <div class="nav-left">
             <a href="controller.do?action=index">Início</a>
-            <a href="controller.do?action=servicos-page">Contratar serviço</a>
+            <a href="controller.do?action=servicos-page&pagina=0">Contratar serviço</a>
             <a href="controller.do?action=cadastro-servico-page">Cadastrar serviço</a>
             <a href="controller.do?action=contato-page">Contato</a>
         </div>
