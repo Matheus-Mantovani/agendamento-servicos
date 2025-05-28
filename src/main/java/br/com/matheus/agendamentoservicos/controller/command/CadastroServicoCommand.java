@@ -56,9 +56,7 @@ public class CadastroServicoCommand implements Command {
 		var nomeImagem = gerarNome(imagemPart);
 		
 		String contentType = imagemPart.getContentType();
-		String caminhoRelativo = request.getServletContext().getInitParameter("upload.path");
-		String diretorioProjeto = System.getProperty("user.dir");
-		File diretorio = new File(diretorioProjeto, caminhoRelativo);
+		File diretorio = new File("F:/ARQDSW2/agendamentoservicos/src/main/webapp/uploads/servico/");
 		if(!diretorio.exists()) diretorio.mkdirs();
 		String caminhoCompleto = new File(diretorio, nomeImagem).getAbsolutePath();
 		imagemPart.write(caminhoCompleto);

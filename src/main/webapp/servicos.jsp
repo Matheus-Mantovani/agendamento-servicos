@@ -44,8 +44,9 @@
 				<c:forEach var="servico" items="${listaServicos}">
 					<div class="col">
 						<div class="card h-100">
-							<img src="${servico.imagemUrl}" class="card-img-top"
-								alt="Imagem do serviço">
+							<div class="image-container">
+  								<img src="${servico.imagemUrl}" alt="Imagem do serviço" />
+							</div>
 							<div class="card-body d-flex flex-column">
 								<h5 class="card-title">${servico.nome}</h5>
 								<p class="card-text">${servico.descricao}</p>
@@ -78,8 +79,6 @@
 				</c:if>
 			</div>
 		</div>
-		<p>${pagina}</p>
-		<p>${totalPaginas}</p>
 	</main>
 
 	<%@ include file="./includes/footer.jsp"%>

@@ -63,6 +63,25 @@ main {
     width: 100%;
 }
 
+.image-container {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  position: relative;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+
 .login-main {
     display: flex;
     justify-content: center;
