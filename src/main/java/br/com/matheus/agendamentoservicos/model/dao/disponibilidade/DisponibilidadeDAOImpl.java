@@ -6,6 +6,9 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.naming.NamingException;
 
@@ -31,8 +34,11 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO {
             "    (a.hora_inicio >= ? AND a.hora_inicio < ADDTIME(?, SEC_TO_TIME((SELECT duracao_minutos FROM servico WHERE id = ?) * 60))) " +
             ") " +
             "AND a.status NOT IN ('CANCELADO', 'REJEITADO')";
-
-
+	private static final String BUSCAR_HORARIOS = "SELECT d.hora_inicio, d.hora_fim, s.duracao_minutos"
+			+ " FROM disponibilidade d"
+			+ " JOIN servico s ON s.id = d.servico_id"
+			+ " WHERE d.servico_id = ? AND d.dia_semana = ?";
+	
 	@Override
 	public boolean create(Disponibilidade disponibilidade) {
 
@@ -110,5 +116,36 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public List<LocalTime> gerarHorariosDisponiveis(long servicoId, int diaSemana) {
+		List<LocalTime> horarios = new ArrayList<>();
+		
+		try(var conn = ConnectionFactory.getConnection();
+				var stmt = conn.prepareStatement(BUSCAR_HORARIOS)) {
+			
+			stmt.setLong(1, servicoId);
+			stmt.setInt(2, diaSemana);
+			
+			try(var rs = stmt.executeQuery()) {
+				while(rs.next()) {
+					var inicio = rs.getTime(1).toLocalTime();
+					var fim = rs.getTime(2).toLocalTime();
+					var duracao = rs.getBigDecimal(3);
+					
+					while(!inicio.plusMinutes(duracao.longValue()).isAfter(fim)) {
+						horarios.add(inicio);
+						inicio = inicio.plusMinutes(duracao.longValue());
+					}
+				}
+			}
+			
+		} catch (SQLException | NamingException e) {
+			e.printStackTrace();
+		}
+
+		return horarios.stream()
+			    .sorted()
+			    .collect(Collectors.toList());
 	}
 }

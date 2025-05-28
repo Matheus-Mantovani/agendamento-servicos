@@ -13,6 +13,8 @@ public interface PrestadorDAO {
 	Prestador findByEmail(String email);
 	
 	Prestador findByCpf(String cpf);
+
+	Prestador findById(long id);
 	
 	boolean horarioDisponivel(long prestadorId, List<Integer> diasSemana, LocalTime horaInicio, BigDecimal duracaoMinutos);
 }

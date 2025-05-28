@@ -8,6 +8,7 @@ import br.com.matheus.agendamentoservicos.controller.command.CadastroPrestadorCo
 import br.com.matheus.agendamentoservicos.controller.command.CadastroServicoCommand;
 import br.com.matheus.agendamentoservicos.controller.command.Command;
 import br.com.matheus.agendamentoservicos.controller.command.ErrorCommand;
+import br.com.matheus.agendamentoservicos.controller.command.GetAgendarServicoPageCommand;
 import br.com.matheus.agendamentoservicos.controller.command.GetCadastroServicoPageCommand;
 import br.com.matheus.agendamentoservicos.controller.command.GetContatoPageCommand;
 import br.com.matheus.agendamentoservicos.controller.command.GetCadastroClientePageCommand;
@@ -37,7 +38,7 @@ public class ControllerServlet extends HttpServlet {
         super();
     }
     
-    public void processRequest(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    public void processRequest(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {  	
     	var action = req.getParameter("action");
 		Command command = null;
 
@@ -72,6 +73,9 @@ public class ControllerServlet extends HttpServlet {
 				break;
 			case "contato-page":
 				command = new GetContatoPageCommand();
+				break;
+			case "agendar-servico-page":
+				command = new GetAgendarServicoPageCommand();
 				break;
 
 			// Ações

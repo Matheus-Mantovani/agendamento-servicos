@@ -1,7 +1,12 @@
 package br.com.matheus.agendamentoservicos.model.dao.agendamento;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.NamingException;
 
@@ -19,6 +24,7 @@ public class AgendamentoDAOImpl implements AgendamentoDAO {
 	private static final String INSERT_AGENDAMENTO_SQL = "INSERT INTO agendamento(cliente_id, prestador_id, servico_id, data, hora_inicio, status, observacoes) VALUES(?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE_STATUS_SQL = "UPDATE agendamento SET status = ? WHERE id = ?";
 	private static final String FIND_BY_ID_SQL = "SELECT id, cliente_id, prestador_id, servico_id, data, hora_inicio, status, observacoes FROM agendamento WHERE id = ?";
+	private static final String BUSCAR_AGENDAMENTOS_DATA = "SELECT hora_inicio FROM agendamento WHERE data = ? AND status NOT LIKE ?";
 	
 	public AgendamentoDAOImpl(ServicoDAO servicoDAO, DisponibilidadeDAO disponibilidadeDAO) {
 		super();
@@ -86,5 +92,29 @@ public class AgendamentoDAOImpl implements AgendamentoDAO {
 		}
 		
 		return agendamento;
+	}
+
+	@Override
+	public List<LocalTime> buscarHorariosAgendados(LocalDate data) {
+		List<LocalTime> agendamentosMarcados = new ArrayList<>();
+		
+		try(var conn = ConnectionFactory.getConnection();
+				var stmt = conn.prepareStatement(BUSCAR_AGENDAMENTOS_DATA)) {
+			
+			stmt.setDate(1, Date.valueOf(data));
+			stmt.setString(2, StatusServico.REJEITADO.toString());
+			
+			try(var rs = stmt.executeQuery()) {
+				while(rs.next()) {
+					agendamentosMarcados.add(rs.getTime(1).toLocalTime());
+				}
+			}
+			
+		} catch (SQLException | NamingException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return agendamentosMarcados;
 	}
 }

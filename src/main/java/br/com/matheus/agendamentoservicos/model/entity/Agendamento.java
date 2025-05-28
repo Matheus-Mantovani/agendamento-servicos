@@ -18,11 +18,6 @@ public class Agendamento {
 	
 	public Agendamento() {}
 	
-	public Agendamento(long clienteId, long prestadorId, long servicoId, LocalDate data, LocalTime horaInicio,
-			StatusServico status, String observacoes) {
-		this(null, clienteId, prestadorId, servicoId, data, horaInicio, status, observacoes);
-	}
-
 	public Agendamento(Long id, long clienteId, long prestadorId, long servicoId, LocalDate data, LocalTime horaInicio,
 			StatusServico status, String observacoes) {
 		if(id != null) {
@@ -36,6 +31,18 @@ public class Agendamento {
 		this.status = status;
 		this.observacoes = observacoes;
 	}
+	
+	public Agendamento(long clienteId, long prestadorId, long servicoId, LocalDate data, LocalTime horaInicio,
+			StatusServico status, String observacoes) {
+		this(null, clienteId, prestadorId, servicoId, data, horaInicio, status, observacoes);
+	}
+	
+	public Agendamento(long clienteId, long prestadorId, long servicoId, LocalDate data, LocalTime horaInicio,
+			StatusServico status) {
+		this(null, clienteId, prestadorId, servicoId, data, horaInicio, status, null);
+	}
+
+	
 
 	public long getId() {
 		return id;

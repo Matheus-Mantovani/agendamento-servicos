@@ -1,6 +1,7 @@
 package br.com.matheus.agendamentoservicos.model.entity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ public class Servico {
 	private String imagemUrl;
 	private BigDecimal preco;
 	private BigDecimal duracaoMinutos;
-	private List<Integer> diasDisponiveis;
+	private List<Integer> diasDisponiveis = new ArrayList<>();
 	
 	public Servico() {}
 	
@@ -96,6 +97,10 @@ public class Servico {
 
 	public void setDiasDisponiveis(List<Integer> diasDisponiveis) {
 		this.diasDisponiveis = diasDisponiveis;
+	}
+	
+	public void addDiaDisponivel(int dia) {
+		diasDisponiveis.add(dia);
 	}
 
 	@Override

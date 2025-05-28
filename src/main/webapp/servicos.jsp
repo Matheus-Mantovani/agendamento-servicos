@@ -16,19 +16,31 @@
 	<%@ include file="./includes/header.jsp"%>
 
 	<main>
+		<div class="container mt-3">
+			<c:if test="${not empty sucesso}">
+				<div class="alert alert-success">${sucesso}</div>
+				<c:remove var="sucesso" scope="session" />
+			</c:if>
+
+			<c:if test="${not empty erro}">
+				<div class="alert alert-danger">${erro}</div>
+				<c:remove var="erro" scope="session" />
+			</c:if>
+		</div>
+
 		<div class="container mt-4">
 			<form method="get" action="controller.do"
 				class="row g-3 align-items-end">
 				<input type="hidden" name="action" value="servicos-page">
 
 				<div class="col-md-5">
-					<label for="nome" class="form-label">Nome do serviço</label> <input
-						type="text" class="form-control" id="nomeFiltro"
+					<label for="nomeFiltro" class="form-label">Nome do serviço</label>
+					<input type="text" class="form-control" id="nomeFiltro"
 						name="nomeFiltro" value="${param.nome}">
 				</div>
 
 				<div class="col-md-5">
-					<label for="cidade" class="form-label">Cidade</label> <input
+					<label for="cidadeFiltro" class="form-label">Cidade</label> <input
 						type="text" class="form-control" id="cidadeFiltro"
 						name="cidadeFiltro" value="${param.cidade}" disabled>
 				</div>
@@ -45,13 +57,14 @@
 					<div class="col">
 						<div class="card h-100">
 							<div class="image-container">
-  								<img src="${servico.imagemUrl}" alt="Imagem do serviço" />
+								<img src="${servico.imagemUrl}" alt="Imagem do serviço" />
 							</div>
 							<div class="card-body d-flex flex-column">
 								<h5 class="card-title">${servico.nome}</h5>
 								<p class="card-text">${servico.descricao}</p>
 
-								<a href="controller.do?action=agendar-servico&id=${servico.id}"
+								<a
+									href="controller.do?action=agendar-servico-page&id=${servico.id}"
 									class="btn btn-success mt-auto">Agendar</a>
 							</div>
 							<div class="card-footer">
