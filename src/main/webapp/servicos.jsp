@@ -30,7 +30,7 @@
 				<div class="col-md-5">
 					<label for="cidade" class="form-label">Cidade</label> <input
 						type="text" class="form-control" id="cidadeFiltro"
-						name="cidadeFiltro" value="${param.cidade}">
+						name="cidadeFiltro" value="${param.cidade}" disabled>
 				</div>
 
 				<div class="col-md-2">

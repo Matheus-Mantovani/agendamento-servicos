@@ -38,14 +38,6 @@ public class GetServicosPageCommand implements Command {
 		listaServicos = daoServico.listarServicos(pagina, servicosPorPagina, nomeFiltro, cidadeFiltro);
 		totalPaginas = daoServico.getTotalPaginas(servicosPorPagina, nomeFiltro, cidadeFiltro);
 		
-		for(var s : listaServicos) {
-			if(s.getNome() == null && !s.getNome().isBlank()) {
-				System.out.println("nome");
-			} else {
-				System.out.println(s.getNome() + " fill");
-			}
-		}
-		
 		request.setAttribute("listaServicos", listaServicos);
 		request.setAttribute("pagina", pagina);
 		request.setAttribute("totalPaginas", totalPaginas);

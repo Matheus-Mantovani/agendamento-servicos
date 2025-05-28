@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
 <%
 	var erro = request.getAttribute("erro");
@@ -25,6 +26,11 @@
 			<%
 			} 
 			%>
+			
+			<c:if test="${not empty sessionScope.erro}">
+				<div class="msg-box msg-error">${sessionScope.erro}</div>
+				<c:remove var="erro" scope="session"/>
+			</c:if>
 
 			<div class="form-group">
 				<label for="email">E-mail:</label> <input type="email" id="email"

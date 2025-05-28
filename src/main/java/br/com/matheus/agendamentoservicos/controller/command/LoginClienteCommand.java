@@ -25,6 +25,7 @@ public class LoginClienteCommand implements Command {
 		
 		if (autorizado) {
 			var session = request.getSession(true);
+			session.removeAttribute("prestador");
 			session.setAttribute("cliente", cliente);
 			view = "controller.do?action=servicos-page";
 		} else {

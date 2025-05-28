@@ -2,6 +2,7 @@ package br.com.matheus.agendamentoservicos.controller;
 
 import java.io.IOException;
 
+import br.com.matheus.agendamentoservicos.controller.command.AgendarServicoCommand;
 import br.com.matheus.agendamentoservicos.controller.command.CadastroClienteCommand;
 import br.com.matheus.agendamentoservicos.controller.command.CadastroPrestadorCommand;
 import br.com.matheus.agendamentoservicos.controller.command.CadastroServicoCommand;
@@ -19,6 +20,7 @@ import br.com.matheus.agendamentoservicos.controller.command.GetServicosPageComm
 import br.com.matheus.agendamentoservicos.controller.command.HomeCommand;
 import br.com.matheus.agendamentoservicos.controller.command.LoginClienteCommand;
 import br.com.matheus.agendamentoservicos.controller.command.LoginPrestadorCommand;
+import br.com.matheus.agendamentoservicos.controller.command.LogoutCommand;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -87,6 +89,12 @@ public class ControllerServlet extends HttpServlet {
 				break;
 			case "cadastro-servico":
 				command = new CadastroServicoCommand();
+				break;
+			case "agendar-servico":
+				command = new AgendarServicoCommand();
+				break;
+			case "logout":
+				command = new LogoutCommand();
 				break;
 
 			default:

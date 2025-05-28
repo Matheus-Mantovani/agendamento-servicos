@@ -25,6 +25,11 @@
 			<%
 			} 
 			%>
+			
+			<c:if test="${not empty sessionScope.erro}">
+				<div class="msg-box msg-error">${sessionScope.erro}</div>
+				<c:remove var="erro" scope="session"/>
+			</c:if>
 
 			<div class="form-group">
 				<label for="email">E-mail:</label> <input type="email" id="email"

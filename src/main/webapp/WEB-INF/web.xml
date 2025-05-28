@@ -15,4 +15,22 @@
     <param-name>upload.path</param-name>
     <param-value>src/main/webapp/uploads/servico</param-value>
   </context-param>
+  <filter>
+    <display-name>PrestadorFilter</display-name>
+    <filter-name>PrestadorFilter</filter-name>
+    <filter-class>br.com.matheus.agendamentoservicos.controller.PrestadorFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>PrestadorFilter</filter-name>
+    <url-pattern>/PrestadorFilter</url-pattern>
+  </filter-mapping>
+  <filter>
+    <display-name>ClienteFilter</display-name>
+    <filter-name>ClienteFilter</filter-name>
+    <filter-class>br.com.matheus.agendamentoservicos.controller.ClienteFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ClienteFilter</filter-name>
+    <url-pattern>/ClienteFilter</url-pattern>
+  </filter-mapping>
 </web-app>
