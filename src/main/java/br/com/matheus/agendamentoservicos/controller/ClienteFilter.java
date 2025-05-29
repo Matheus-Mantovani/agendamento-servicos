@@ -17,7 +17,7 @@ import java.util.Set;
 
 @WebFilter(urlPatterns = {"/controller.do"})
 public class ClienteFilter extends HttpFilter implements Filter {
-	private final Set<String> acoesProtegidas = Set.of("agendar-servico");
+	private final Set<String> acoesProtegidas = Set.of("agendar-servico", "agendamentos-cliente-page");
 	
 	private static final long serialVersionUID = 1L;
 	

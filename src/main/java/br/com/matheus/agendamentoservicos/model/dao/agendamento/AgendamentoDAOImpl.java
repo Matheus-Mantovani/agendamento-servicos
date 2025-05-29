@@ -18,19 +18,14 @@ import br.com.matheus.agendamentoservicos.model.enums.StatusServico;
 import br.com.matheus.agendamentoservicos.util.ConnectionFactory;
 
 public class AgendamentoDAOImpl implements AgendamentoDAO {
-    private final ServicoDAO servicoDAO;
-    private final DisponibilidadeDAO disponibilidadeDAO;
-
 	private static final String INSERT_AGENDAMENTO_SQL = "INSERT INTO agendamento(cliente_id, prestador_id, servico_id, data, hora_inicio, status, observacoes) VALUES(?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE_STATUS_SQL = "UPDATE agendamento SET status = ? WHERE id = ?";
 	private static final String FIND_BY_ID_SQL = "SELECT id, cliente_id, prestador_id, servico_id, data, hora_inicio, status, observacoes FROM agendamento WHERE id = ?";
-	private static final String BUSCAR_AGENDAMENTOS_DATA = "SELECT hora_inicio FROM agendamento WHERE data = ? AND status NOT LIKE ?";
+	private static final String BUSCAR_AGENDAMENTOS_DATA_SQL = "SELECT hora_inicio FROM agendamento WHERE data = ? AND status NOT LIKE ?";
+	private static final String BUSCAR_AGENDAMENTOS_PRESTADOR_SQL = "SELECT id, cliente_id, prestador_id, servico_id, data, hora_inicio, status, observacoes FROM agendamento WHERE prestador_id = ?";
+	private static final String BUSCAR_AGENDAMENTOS_CLIENTE_SQL = "SELECT id, cliente_id, prestador_id, servico_id, data, hora_inicio, status, observacoes FROM agendamento WHERE cliente_id = ?";
 	
-	public AgendamentoDAOImpl(ServicoDAO servicoDAO, DisponibilidadeDAO disponibilidadeDAO) {
-		super();
-		this.servicoDAO = servicoDAO;
-		this.disponibilidadeDAO = disponibilidadeDAO;
-	}
+	public AgendamentoDAOImpl() {}
 
 	@Override
 	public boolean create(Agendamento agendamento) {
@@ -43,7 +38,7 @@ public class AgendamentoDAOImpl implements AgendamentoDAO {
 			preparedStatement.setLong(3, agendamento.getServicoId());
 			preparedStatement.setDate(4, java.sql.Date.valueOf(agendamento.getData()));
 			preparedStatement.setTime(5, java.sql.Time.valueOf(agendamento.getHoraInicio()));
-			preparedStatement.setString(6, agendamento.getStatus().name());
+			preparedStatement.setString(6, agendamento.getStatus().toString());
 			preparedStatement.setString(7, agendamento.getObservacoes());
 			
 			return preparedStatement.executeUpdate() > 0;
@@ -59,7 +54,19 @@ public class AgendamentoDAOImpl implements AgendamentoDAO {
 	
 	@Override
 	public boolean updateStatus(Agendamento agendamento, StatusServico status) {
-		// TODO Auto-generated method stub
+		
+		try(var conn = ConnectionFactory.getConnection();
+				var stmt = conn.prepareStatement(UPDATE_STATUS_SQL)) {
+			System.out.println(status.getName());
+			stmt.setString(1, status.getName());
+			stmt.setLong(2, agendamento.getId());
+			
+			return stmt.executeUpdate() > 0;
+			
+		} catch (SQLException | NamingException e) {
+			e.printStackTrace();
+		}
+		
 		return false;
 	}
 
@@ -99,7 +106,7 @@ public class AgendamentoDAOImpl implements AgendamentoDAO {
 		List<LocalTime> agendamentosMarcados = new ArrayList<>();
 		
 		try(var conn = ConnectionFactory.getConnection();
-				var stmt = conn.prepareStatement(BUSCAR_AGENDAMENTOS_DATA)) {
+				var stmt = conn.prepareStatement(BUSCAR_AGENDAMENTOS_DATA_SQL)) {
 			
 			stmt.setDate(1, Date.valueOf(data));
 			stmt.setString(2, StatusServico.REJEITADO.toString());
@@ -116,5 +123,67 @@ public class AgendamentoDAOImpl implements AgendamentoDAO {
 		
 		
 		return agendamentosMarcados;
+	}
+
+	@Override
+	public List<Agendamento> buscarAgendamentosPrestador(long id) {
+		List<Agendamento> agendamentos = new ArrayList<>();
+		
+		try(var conn = ConnectionFactory.getConnection();
+				var stmt = conn.prepareStatement(BUSCAR_AGENDAMENTOS_PRESTADOR_SQL)) {
+			
+			stmt.setLong(1, id);
+			
+			try(var rs = stmt.executeQuery()) {
+				while(rs.next()) {
+					Agendamento a = new Agendamento();
+					a.setId(rs.getLong(1));
+					a.setClienteId(rs.getLong(2));
+					a.setPrestadorId(rs.getLong(3));
+					a.setServicoId(rs.getLong(4));
+					a.setData(rs.getDate(5).toLocalDate());
+					a.setHoraInicio(rs.getTime(6).toLocalTime());
+					a.setStatus(StatusServico.parseStatus(rs.getString(7)));
+					a.setObservacoes(rs.getString(8));
+					agendamentos.add(a);
+				}
+			}
+			
+		} catch (SQLException | NamingException e) {
+			e.printStackTrace();
+		}
+		
+		return agendamentos;
+	}
+
+	@Override
+	public List<Agendamento> buscarAgendamentosCliente(long id) {
+		List<Agendamento> agendamentos = new ArrayList<>();
+		
+		try(var conn = ConnectionFactory.getConnection();
+				var stmt = conn.prepareStatement(BUSCAR_AGENDAMENTOS_CLIENTE_SQL)) {
+			
+			stmt.setLong(1, id);
+			
+			try(var rs = stmt.executeQuery()) {
+				while(rs.next()) {
+					Agendamento a = new Agendamento();
+					a.setId(rs.getLong(1));
+					a.setClienteId(rs.getLong(2));
+					a.setPrestadorId(rs.getLong(3));
+					a.setServicoId(rs.getLong(4));
+					a.setData(rs.getDate(5).toLocalDate());
+					a.setHoraInicio(rs.getTime(6).toLocalTime());
+					a.setStatus(StatusServico.parseStatus(rs.getString(7)));
+					a.setObservacoes(rs.getString(8));
+					agendamentos.add(a);
+				}
+			}
+			
+		} catch (SQLException | NamingException e) {
+			e.printStackTrace();
+		}
+		
+		return agendamentos;
 	}
 }

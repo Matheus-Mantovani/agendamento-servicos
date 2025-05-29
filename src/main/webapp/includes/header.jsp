@@ -11,6 +11,12 @@
             <c:if test="${not empty sessionScope.prestador}">
             	<a href="controller.do?action=cadastro-servico-page">Cadastrar serviço</a>
             </c:if>
+            <c:if test="${not empty sessionScope.prestador}">
+            	<a href="controller.do?action=agendamentos-prestador-page">Agendamentos</a>
+            </c:if>
+            <c:if test="${not empty sessionScope.cliente}">
+            	<a href="controller.do?action=agendamentos-cliente-page">Agendamentos</a>
+            </c:if>
             <a href="controller.do?action=contato-page">Contato</a>
         </div>
         <div class="nav-right">

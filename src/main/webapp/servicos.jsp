@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>HireUp - Serviços</title>
+<link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/images/favicon.ico">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">

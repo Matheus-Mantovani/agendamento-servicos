@@ -2,12 +2,16 @@ package br.com.matheus.agendamentoservicos.controller;
 
 import java.io.IOException;
 
+import br.com.matheus.agendamentoservicos.controller.command.AceitarAgendamentoCommand;
 import br.com.matheus.agendamentoservicos.controller.command.AgendarServicoCommand;
 import br.com.matheus.agendamentoservicos.controller.command.CadastroClienteCommand;
 import br.com.matheus.agendamentoservicos.controller.command.CadastroPrestadorCommand;
 import br.com.matheus.agendamentoservicos.controller.command.CadastroServicoCommand;
 import br.com.matheus.agendamentoservicos.controller.command.Command;
+import br.com.matheus.agendamentoservicos.controller.command.ConcluirAgendamentoCommand;
 import br.com.matheus.agendamentoservicos.controller.command.ErrorCommand;
+import br.com.matheus.agendamentoservicos.controller.command.GetAgendamentosClientePageCommand;
+import br.com.matheus.agendamentoservicos.controller.command.GetAgendamentosPrestadorPageCommand;
 import br.com.matheus.agendamentoservicos.controller.command.GetAgendarServicoPageCommand;
 import br.com.matheus.agendamentoservicos.controller.command.GetCadastroServicoPageCommand;
 import br.com.matheus.agendamentoservicos.controller.command.GetContatoPageCommand;
@@ -22,6 +26,7 @@ import br.com.matheus.agendamentoservicos.controller.command.HomeCommand;
 import br.com.matheus.agendamentoservicos.controller.command.LoginClienteCommand;
 import br.com.matheus.agendamentoservicos.controller.command.LoginPrestadorCommand;
 import br.com.matheus.agendamentoservicos.controller.command.LogoutCommand;
+import br.com.matheus.agendamentoservicos.controller.command.RecusarAgendamentoCommand;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -77,6 +82,12 @@ public class ControllerServlet extends HttpServlet {
 			case "agendar-servico-page":
 				command = new GetAgendarServicoPageCommand();
 				break;
+			case "agendamentos-cliente-page":
+				command = new GetAgendamentosClientePageCommand();
+				break;
+			case "agendamentos-prestador-page":
+				command = new GetAgendamentosPrestadorPageCommand();
+				break;
 
 			// Ações
 			case "login-cliente":
@@ -99,6 +110,15 @@ public class ControllerServlet extends HttpServlet {
 				break;
 			case "logout":
 				command = new LogoutCommand();
+				break;
+			case "aceitar-agendamento":
+				command = new AceitarAgendamentoCommand();
+				break;
+			case "recusar-agendamento":
+				command = new RecusarAgendamentoCommand();
+				break;
+			case "concluir-agendamento":
+				command = new ConcluirAgendamentoCommand();
 				break;
 
 			default:

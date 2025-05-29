@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>HireUp - Escolher Tipo de Login</title>
+    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/images/favicon.ico">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>

@@ -7,4 +7,6 @@ public interface ClienteDAO {
 	boolean create(Cliente cliente);
 	
 	Cliente findByEmail(String email);
+	
+	Cliente findById(long id);
 }

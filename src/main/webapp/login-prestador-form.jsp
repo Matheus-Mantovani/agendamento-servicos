@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>HireUp - Login de Prestador</title>
+<link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/images/favicon.ico">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>

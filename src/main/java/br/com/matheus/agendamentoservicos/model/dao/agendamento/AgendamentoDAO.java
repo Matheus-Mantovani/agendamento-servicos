@@ -16,4 +16,8 @@ public interface AgendamentoDAO {
 	public Agendamento findById(long id);
 	
 	public List<LocalTime> buscarHorariosAgendados(LocalDate data);
+	
+	public List<Agendamento> buscarAgendamentosPrestador(long id);
+
+	public List<Agendamento> buscarAgendamentosCliente(long id);
 }

@@ -37,9 +37,7 @@ public class AgendarServicoCommand implements Command {
 		
 		var agendamento = new Agendamento(clienteId, prestadorId, servicoId, data, hora, StatusServico.PENDENTE);
 
-		var daoServico = ServicoDAOFactory.create();
-		var daoDisponibilidade = DisponibilidadeDAOFactory.create();
-		var daoAgendamento = AgendamentoDAOFactory.create(daoServico, daoDisponibilidade);
+		var daoAgendamento = AgendamentoDAOFactory.create();
 		
 		if(daoAgendamento.create(agendamento)) {
 			request.setAttribute("sucesso", "Agendamento feito com sucesso!");

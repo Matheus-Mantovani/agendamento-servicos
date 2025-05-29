@@ -34,7 +34,7 @@ public class GetAgendarServicoPageCommand implements Command{
 			
 			var daoPrestador = PrestadorDAOFactory.create();
 			var daoDisponibilidade = DisponibilidadeDAOFactory.create();
-			var daoAgendamento = AgendamentoDAOFactory.create(daoServico, daoDisponibilidade);
+			var daoAgendamento = AgendamentoDAOFactory.create();
 			
 			var prestador = daoPrestador.findById(servico.getPrestadorId());
 			var horariosAgendados = daoAgendamento.buscarHorariosAgendados(dataSelecionada);
